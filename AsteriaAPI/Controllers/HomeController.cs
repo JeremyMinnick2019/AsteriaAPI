@@ -47,14 +47,17 @@ namespace AsteriaAPI.Controllers
             return APODInfo;
         }
 
-        private byte[]? PhotoLinkToByteArray(string? Link)
+        private string? PhotoLinkToByteArray(string? Link)
         {
             if (string.IsNullOrWhiteSpace(Link))
                 return null;
 
             HttpClient Client = new HttpClient();
 
-            return Client.GetByteArrayAsync(Link).Result;
+            string base64 = Convert.ToBase64String(Client.GetByteArrayAsync(Link).Result);
+            string ImgSRC = String.Format($"data:image/jpeg;base64,{base64}");
+
+            return ImgSRC;
         }
     }
 }
